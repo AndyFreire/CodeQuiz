@@ -7,6 +7,8 @@ $(document).ready(function(){
     var answerArea = document.querySelector("#answers");
 
     var questionIndex = 0;
+    var score = 0;
+    var time = 75;
 
     var questions = [
         { 
@@ -31,8 +33,6 @@ $(document).ready(function(){
         } 
 
     ]
-
-    var startTime = 75;
 
     function init(){
         questionArea.style.display = "none";
@@ -59,22 +59,27 @@ $(document).ready(function(){
         if (event.target.matches("button")){
             if (event.target.textContent === questions[questionIndex].correctAnswer){
                 console.log("You got it right!");
+                score += 10;
             } else {
                 console.log("You got it wrong dumb dumb!")
+                time -= 10;
+                timer.textContent = time;
             }
+            questionIndex++;
+            renderQuestion();
         }
 
     })
 
     function startTimer(){
 
-        timer.textContent = startTime;
+        timer.textContent = time;
 
         var interval = setInterval(function(){
 
-            if (startTime >0){
-                startTime--;
-                timer.textContent = startTime;
+            if (time >0){
+                time--;
+                timer.textContent = time;
             } else {
                 clearInterval(interval);
             }
@@ -87,6 +92,7 @@ $(document).ready(function(){
 
         document.querySelector("#question").textContent = questions[questionIndex].question;
         
+        answerArea.innerHTML = "";
 
         for (var i = 0; i < questions[questionIndex].answers.length; i++){
             var answerOption = document.createElement("button");
