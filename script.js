@@ -12,6 +12,7 @@ $(document).ready(function () {
     var score = 0;
     var time = 75;
     var interval;
+    var alertTimeout;
 
     // Add question bank
     var questions = [
@@ -88,11 +89,13 @@ $(document).ready(function () {
             if (event.target.textContent === questions[questionIndex].correctAnswer) {
                 //Add 10 points
                 score += 10;
+                displayAlert(true);
             } else {
                 //subtract 10 seconds
                 time -= 10;
                 //update the timer
                 timer.textContent = time;
+                displayAlert(false);
             }
             //Go to the next question and render
             questionIndex++;
@@ -119,6 +122,23 @@ $(document).ready(function () {
 
         }, 1000);
 
+    }
+
+    function displayAlert(status){
+
+        var alertArea = $("#alert-area");
+
+        //clear the alert if theres one already there
+        clearTimeout(alertTimeout);
+
+        alertArea.fadeIn("fast");
+        if (status){
+            alertArea.html("<div class='alert alert-success w-75 mx-auto' role='alert'> <strong>Correct!</strong> +10 points!</div>");
+        } else {
+            alertArea.html("<div class='alert alert-danger w-75 mx-auto' role='alert'> <strong>Wrong!</strong> -10 seconds.</div>");
+        }
+
+        alertTimeout = setTimeout(function(){ alertArea.fadeOut("slow"); }, 1000);
     }
 
     //Render the current question at questionIndex
@@ -157,7 +177,7 @@ $(document).ready(function () {
 
     document.querySelector("#save-btn").addEventListener("click", function(e){
         e.preventDefault();
-        
+
     })
 
 
