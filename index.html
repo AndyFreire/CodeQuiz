@@ -46,7 +46,14 @@
             <h1 class="display-5">End of Quiz</h1>
 
             <p class="my-4 final-score">You scored <span></span> points!</p> 
-            <p>Click below to play again.</p>
+            <p>Enter your name below to save your score.</p>
+            <form>
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control w-75 mx-auto" id="nameInput">
+                </div>
+                <button type="submit" class="btn btn-primary" id="save-btn">Save</button>
+              </form>
             <hr class="my-4">
             <p class="lead">
                 <button class="btn btn-primary btn-lg start-btn">Restart Quiz</button>
