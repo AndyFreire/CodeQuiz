@@ -37,7 +37,37 @@ $(document).ready(function () {
             correctAnswer: "document.getElementByID()"
         },
         {
-            question: "Javascript and Java are the same language",
+            question: "Javascript and Java are the same language.",
+            answers: ["True", "False"],
+            correctAnswer: "False"
+        },
+        {
+            question: "Which of the following is NOT an HTML element?",
+            answers: ["Div", "Section", "ID", "Anchor Link"],
+            correctAnswer: "ID"
+        },
+        {
+            question: "Which of the following is not an operator?",
+            answers: ["@", "+", "*", "==="],
+            correctAnswer: "@"
+        },
+        {
+            question: "Javascript is one of the 3 main languages of the modern web.",
+            answers: ["True", "False"],
+            correctAnswer: "True"
+        },
+        {
+            question: "What do you assign to an HTML element to give it functionality when clicked?",
+            answers: ["On Click", "Event Listener", "CSS", "Query Selector"],
+            correctAnswer: "Event Listener"
+        },
+        {
+            question: "Which of the following is not a Javascript keyword?",
+            answers: ["func", "return", "var", "if"],
+            correctAnswer: "func"
+        },
+        {
+            question: "'1' === 1",
             answers: ["True", "False"],
             correctAnswer: "False"
         }
