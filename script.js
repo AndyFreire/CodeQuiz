@@ -3,6 +3,8 @@ $(document).ready(function () {
     //Grab DOM elements
     var startPanel = document.querySelector(".start-panel");
     var endPanel = document.querySelector(".end-panel");
+    var scoresPanel = document.querySelector(".scores-panel");
+    var scoresBtn = document.querySelector(".hi-scores-btn");
     var timer = document.querySelector("#timer");
     var questionArea = document.querySelector(".question-area");
     var answerArea = document.querySelector("#answers");
@@ -54,28 +56,40 @@ $(document).ready(function () {
         time = 75;
         score = 0;
         questionIndex = 0;
+
+        timer.textContent = time;
     }
 
     init();
 
-    document.querySelectorAll(".start-btn").forEach(element => {
+    document.querySelector(".start-btn").addEventListener("click" , function(){
+        //Hide the start panel
+        startPanel.style.display = "none";
+        endPanel.style.display = "none"; 
+        scoresBtn.style.display = "none";
+
+        //Start the timer
+        startTimer();
+
+        //Display the question area
+        questionArea.style.display = "block";
+
+        //Render the first question
+        renderQuestion();
+
+    })
+
+    document.querySelectorAll(".menu-btn").forEach(element => {
         element.addEventListener("click", function () {
 
-            //Hide the start panel
-            startPanel.style.display = "none";
-            endPanel.style.display = "none"; 
-    
-            reset();
-    
-            //Start the timer
-            startTimer();
-    
-            //Display the question area
-            questionArea.style.display = "block";
-    
-            //Render the first question
-            renderQuestion();
-    
+        //Hide the start panel
+        startPanel.style.display = "block";
+        scoresBtn.style.display = "block";
+        endPanel.style.display = "none"; 
+        scoresPanel.style.display = "none";
+
+        reset();
+
         });
         
     });
@@ -174,9 +188,35 @@ $(document).ready(function () {
         endPanel.style.display = "block";
     }
 
+    function displayHighScores(){
+        scoresBtn.style.display = "none";
+        startPanel.style.display = "none";
+        endPanel.style.display = "none";
+        scoresPanel.style.display = "block";
+
+    }
+
+    scoresBtn.addEventListener("click", displayHighScores);
+
+
 
     document.querySelector("#save-btn").addEventListener("click", function(e){
         e.preventDefault();
+
+        var nameInput = document.querySelector("#name-input");
+
+        if (nameInput.value){
+
+            var highScore = {
+                name :  nameInput.value ,
+                score : score
+            }
+
+            localStorage.setItem("highScores" , JSON.stringify(highScore));
+
+            nameInput.value = "";
+            
+        }
 
     })
 

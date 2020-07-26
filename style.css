@@ -5,3 +5,7 @@
 .end-panel{
     display: none;
 }
+
+.scores-panel { 
+    display: none;
+}

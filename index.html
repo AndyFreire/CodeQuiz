@@ -14,7 +14,7 @@
 
     <div class="d-flex flex-row justify-content-between align-items-center">
         <div class="mr-auto p-4">
-            <button class="btn btn-primary">View High Scores</button>
+            <button class="btn btn-primary hi-scores-btn">View High Scores</button>
         </div>
         <div class="ml-auto p-4">
             <h4>Time: <span id = "timer">0</span></h4>
@@ -48,15 +48,29 @@
             <form>
                 <div class="form-group">
                   <label for="name">Name</label>
-                  <input type="text" class="form-control w-75 mx-auto" id="nameInput">
+                  <input type="text" class="form-control w-75 mx-auto" id="name-input">
                 </div>
                 <button type="submit" class="btn btn-primary" id="save-btn">Save</button>
               </form>
             <hr class="my-4">
             <p class="lead">
-                <button class="btn btn-primary btn-lg start-btn">Restart Quiz</button>
+                <button class="btn btn-primary btn-lg menu-btn">Restart Quiz</button>
             </p>
         </div>
+    </div>
+    <div class="scores-panel">
+      <div class="jumbotron mx-5 my-4 p-5 text-center">
+        <h1 class="display-5">High Scores</h1>
+
+        <p class="my-4">Meet our Code Quiz Hall of Famers</p> 
+        <button class="btn btn-primary btn-lg menu-btn">Go Back</button>
+        <button class="btn btn-outline-primary btn-lg clear-scores-btn">Clear Scores</button>
+        <hr class="my-4">
+        <div class="high-scores-list">
+          
+        </div>
+    </div>
+
     </div>
     <div id ="alert-area"></div>
 
