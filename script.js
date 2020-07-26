@@ -16,6 +16,9 @@ $(document).ready(function () {
     var interval;
     var alertTimeout;
 
+    // Add high scores bank
+    var highScores = [];
+
     // Add question bank
     var questions = [
         {
@@ -49,9 +52,11 @@ $(document).ready(function () {
         //Hide questions and show start panel
         questionArea.style.display = "none";
         startPanel.style.display = "block";
-
     }
 
+    init();
+
+    // Reset variables
     function reset() {
         time = 75;
         score = 0;
@@ -60,12 +65,11 @@ $(document).ready(function () {
         timer.textContent = time;
     }
 
-    init();
-
-    document.querySelector(".start-btn").addEventListener("click" , function(){
+    // Start Quiz button
+    document.querySelector(".start-btn").addEventListener("click", function () {
         //Hide the start panel
         startPanel.style.display = "none";
-        endPanel.style.display = "none"; 
+        endPanel.style.display = "none";
         scoresBtn.style.display = "none";
 
         //Start the timer
@@ -79,19 +83,20 @@ $(document).ready(function () {
 
     })
 
+    // Return to main menu buttons
     document.querySelectorAll(".menu-btn").forEach(element => {
         element.addEventListener("click", function () {
 
-        //Hide the start panel
-        startPanel.style.display = "block";
-        scoresBtn.style.display = "block";
-        endPanel.style.display = "none"; 
-        scoresPanel.style.display = "none";
+            //Hide the start panel
+            startPanel.style.display = "block";
+            scoresBtn.style.display = "block";
+            endPanel.style.display = "none";
+            scoresPanel.style.display = "none";
 
-        reset();
+            reset();
 
         });
-        
+
     });
 
     //When we click an answer
@@ -138,7 +143,8 @@ $(document).ready(function () {
 
     }
 
-    function displayAlert(status){
+    // Display an alert to the user
+    function displayAlert(status) {
 
         var alertArea = $("#alert-area");
 
@@ -146,14 +152,15 @@ $(document).ready(function () {
         clearTimeout(alertTimeout);
 
         alertArea.fadeIn("fast");
-        if (status){
+        if (status) {
             alertArea.html("<div class='alert alert-success w-75 mx-auto' role='alert'> <strong>Correct!</strong> +10 points!</div>");
         } else {
             alertArea.html("<div class='alert alert-danger w-75 mx-auto' role='alert'> <strong>Wrong!</strong> -10 seconds.</div>");
         }
 
-        alertTimeout = setTimeout(function(){ alertArea.fadeOut("slow"); }, 1000);
+        alertTimeout = setTimeout(function () { alertArea.fadeOut("slow"); }, 1000);
     }
+
 
     //Render the current question at questionIndex
     function renderQuestion() {
@@ -175,12 +182,14 @@ $(document).ready(function () {
                 answerArea.appendChild(answerOption);
             }
         } else {
+            // If out of questions, end game
             endGame();
         }
 
 
     }
 
+    // End game function
     function endGame() {
         clearInterval(interval);
         document.querySelector(".final-score span").textContent = score;
@@ -188,34 +197,80 @@ $(document).ready(function () {
         endPanel.style.display = "block";
     }
 
-    function displayHighScores(){
+    // Display the high scores panel
+
+    function displayHighScores() {
         scoresBtn.style.display = "none";
         startPanel.style.display = "none";
         endPanel.style.display = "none";
         scoresPanel.style.display = "block";
 
+        var scoresList = document.querySelector(".high-scores-list");
+
+        //Clear the previous list
+        scoresList.innerHTML = "";
+
+        //Render the high scores list
+
+        if (localStorage.getItem("highScores")) {
+
+            // Get the high scores
+            highScores = JSON.parse(localStorage.getItem("highScores"));
+
+        }
+
+        // Sort the high scores by value
+        highScores.sort( function(a, b){
+            return parseInt(b.score) - parseInt(a.score);
+        })
+
+        highScores.forEach(item => {
+
+            var scoreDiv = document.createElement("div");
+            scoreDiv.innerHTML = "<h2>" + item.name + " : " + item.score + " points</h2>";
+
+            scoresList.appendChild(scoreDiv);
+        });
     }
 
+    // If we click the high score button, show the high scores panel
     scoresBtn.addEventListener("click", displayHighScores);
 
+    document.querySelector(".clear-scores-btn").addEventListener("click", function () {
+        localStorage.setItem("highScores", JSON.stringify([]));
+        document.querySelector(".high-scores-list").innerHTML = "";
+    });
 
-
-    document.querySelector("#save-btn").addEventListener("click", function(e){
+    // If we click save, save the user's high score
+    document.querySelector("#save-btn").addEventListener("click", function (e) {
+        // prevent page reload
         e.preventDefault();
 
+        // Grab the name input field
         var nameInput = document.querySelector("#name-input");
 
-        if (nameInput.value){
+        // if there is a value in Name field, save
+        if (nameInput.value) {
 
-            var highScore = {
-                name :  nameInput.value ,
-                score : score
+            if (localStorage.getItem("highScores")) {
+                highScores = JSON.parse(localStorage.getItem("highScores"));
             }
 
-            localStorage.setItem("highScores" , JSON.stringify(highScore));
+            // Create an object with name and score
+            var highScore = {
+                name: nameInput.value,
+                score: score
+            }
 
+            //Push the object into the highscores array
+            highScores.push(highScore);
+
+            // Store the high scores array as a string
+            localStorage.setItem("highScores", JSON.stringify(highScores));
+
+            // Reset the name input field
             nameInput.value = "";
-            
+
         }
 
     })
